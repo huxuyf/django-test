@@ -1,7 +1,8 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Question,Choice
+from .models import Question,Choice,QuestionForm,ChoiceForm
+from .forms import myform
 
 def index(request):
     # context = {'message':'Hello,world!'}
@@ -31,3 +32,27 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results',args=(question_id,)))
+    
+def question_input(request):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            q = form.save()
+            q.save()
+            return HttpResponseRedirect(reverse('polls:index'))
+    else:
+        form = QuestionForm()
+        return render(request,'polls/question_input.html',{'form':form})
+
+def get_name(request):
+    if request.method == 'POST':
+        form = myform(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = myform()
+
+    return render(request,'polls/name.html',{'form':form})
+
+def thanks(request):
+    return HttpResponse("你输入的是："+request.POST['user_name'])

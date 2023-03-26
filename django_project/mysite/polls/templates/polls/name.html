@@ -1,0 +1,5 @@
+<form action='{% url "polls:thanks" %}' method='POST'>
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="提交">
+</form>
