@@ -1,0 +1,10 @@
+
+{% if new_list %}
+    <ul>
+        {% for title in new_list %}
+        <li><a href="{% url 'polls:detail' title.id %}">{{ title }}</a> {{ title.pub_date }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+<h2>没有新闻</h2>
+{% endif %}
