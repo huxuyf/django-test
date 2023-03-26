@@ -1,4 +1,5 @@
-
+{% load static %}
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
 {% if new_list %}
     <ul>
         {% for title in new_list %}
